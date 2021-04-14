@@ -10,13 +10,15 @@ version="QCv1.0"
 def read_files_for_P(file):
 	topologies = []
 	genes_pp = {}
-
+	NN= GENE_NUM
 	with open(file) as f:
 		lines = f.readlines()
-
+		NN = int(lines[-1].split()[1])
+		print(NN)
 		for k,line in enumerate(lines[:10]):
 			tree = line.split()[-1]
-			genes_pp[tree] = [0]*GENE_NUM
+#			genes_pp[tree] = [0]*GENE_NUM
+			genes_pp[tree] = [0]*NN
 			if tree not in topologies:
 				topologies.append(tree)
 #	print(topologies)
@@ -30,25 +32,26 @@ def read_files_for_P(file):
 		parts = line.split()
 		tree = parts[-1]
 		pp = float(parts[2][:-1])
-		gnum = int(parts[1])
+		gnum = int(parts[1])-1
 		if tree in genes_pp.keys():
 			genes_pp[tree][gnum] = pp
 		else:
-			genes_pp[tree] = [0]*GENE_NUM
+			#genes_pp[tree] = [0]*GENE_NUM
+			genes_pp[tree] = [0]*NN
 			genes_pp[tree][gnum] = pp
 		#	trees.append((tree,pp))
 		# if trees:
 		# 	maps.append(max(trees,key=lambda x:x[1]))
 		# else:
 		# 	maps.append(('',-1))
-	return genes_pp,topologies
+	return genes_pp,topologies,NN
 
 
 
 
 
 
-def convert_to_array(genes_pp,topologies):
+def convert_to_array(genes_pp,topologies,GENE_NUM):
 #	topologies = list(genes_pp.keys())
 	P = np.zeros((3, GENE_NUM))
 	
@@ -75,15 +78,15 @@ def hessian(d, i, P):
 
 
 if __name__ == "__main__":
-	GENE_NUM = 499
+	GENE_NUM = 500
 	file = sys.argv[1]
 	print(version)
 	N = 3
 	genes = []
-	genes_pp,topologies = read_files_for_P(file)
+	genes_pp,topologies,NN = read_files_for_P(file)
 #	print(topologies)
 
-	P = convert_to_array(genes_pp,topologies)
+	P = convert_to_array(genes_pp,topologies,NN)
 
 #####	savetxt(sys.argv[3], P, delimiter=',')
 #	P = load(sys.argv[3])
