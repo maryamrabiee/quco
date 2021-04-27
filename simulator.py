@@ -7,7 +7,7 @@ import dendropy
 from dendropy.simulate import treesim
 import numpy as np
 import sys
-
+from random import Random
 
 class Simulation:
     def __init__(self, internal_coal, term_coal, short_r, long_r, felsenstein):
@@ -46,8 +46,9 @@ class Simulation:
         return gt
 
     def simulate_coalgenetree(self, k):
+        rng = Random(1234567000)
         self.genetrees = [treesim.contained_coalescent_tree(
-            containing_tree=self.st, gene_to_containing_taxon_map=self.t_map) for i in range(0, k)]
+            containing_tree=self.st, gene_to_containing_taxon_map=self.t_map, rng=rng) for i in range(0, k)]
         for gt in self.genetrees:
             self.unroot(gt)
         return self.genetrees
@@ -57,12 +58,14 @@ class Simulation:
         return self.genetrees
 
 if __name__ == '__main__':
+    version = "1.0"
     short_r = float(sys.argv[2])
     long_r = float(sys.argv[3])
     internal_coal = float(sys.argv[4])
     f = True
     if sys.argv[5]=='false':
         f = False
+    print("Simulator version "+version)
     #sim = Simulation(internal_coal=0.6, term_coal=None, short_r=0.02, long_r=0.4, felsenstein=False)
     sim = Simulation(internal_coal=internal_coal, term_coal=None, short_r=short_r, long_r=long_r, felsenstein=f)
     N = int(sys.argv[6])
