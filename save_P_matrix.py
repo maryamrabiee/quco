@@ -6,14 +6,19 @@ from numpy import savetxt,loadtxt
 from scipy.stats import chi2
 
 
-version="QCv1.0"
+version="QCv1.1"
 def read_files_for_P(file):
 	topologies = []
 	genes_pp = {}
 	NN= GENE_NUM
+	gnums = []
 	with open(file) as f:
 		lines = f.readlines()
-		NN = int(lines[-1].split()[1])
+		for line in lines:
+			n = line.split()[1]
+			if not gnums or n != gnums[-1] :
+				gnums.append(n)
+		NN = len(gnums)
 		print(NN)
 		for k,line in enumerate(lines[:10]):
 			tree = line.split()[-1]
@@ -27,23 +32,28 @@ def read_files_for_P(file):
 		topologies= topologies[:3]
 
 		#trees = []
+	prev, l = -1, -1
 	for k,line in enumerate(lines):
 #		[&W 000 1.000000]	((A,C),B,D);
 		parts = line.split()
 		tree = parts[-1]
 		pp = float(parts[2][:-1])
 		gnum = int(parts[1])-1
+		if gnum != prev: 
+			l += 1
+			prev = gnum
 		if tree in genes_pp.keys():
-			genes_pp[tree][gnum] = pp
+			genes_pp[tree][l] = pp
 		else:
 			#genes_pp[tree] = [0]*GENE_NUM
 			genes_pp[tree] = [0]*NN
-			genes_pp[tree][gnum] = pp
+			genes_pp[tree][l] = pp
 		#	trees.append((tree,pp))
 		# if trees:
 		# 	maps.append(max(trees,key=lambda x:x[1]))
 		# else:
 		# 	maps.append(('',-1))
+
 	return genes_pp,topologies,NN
 
 
@@ -90,9 +100,12 @@ if __name__ == "__main__":
 
 #####	savetxt(sys.argv[3], P, delimiter=',')
 #	P = load(sys.argv[3])
-#	print(P.sum(axis=0))
+	np.set_printoptions(suppress=True)
+	np.set_printoptions(threshold=sys.maxsize)
+#	print(np.transpose(P))
 	print("All sums to 1:", end=" ")
 	print((P.sum(axis=0) > 0.99).all())
+	P += 10 ** -8
 	P = P/P.sum(axis=0,keepdims=1)
 	results = []
 	for i in range(3):
