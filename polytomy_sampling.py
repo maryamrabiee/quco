@@ -92,8 +92,8 @@ def sample_around_polytomy_ties(tree):
 				cc.append(ties)
 				if child.is_leaf():
 					leaves.append(child)
-
-			cc.append([leaves])
+			if leaves:
+				cc.append([leaves])
 			for c in cc:
 				for j in range(len(c)):
 					if len(samples) <= j:
