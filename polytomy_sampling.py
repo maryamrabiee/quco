@@ -2,9 +2,9 @@ import dendropy
 import sys
 
 
-version = "1.1v"
+version = "1.2v"
 
-def find_closest_leaf_under(node):
+def find_closest_leaf_under(node, nn):
 	close_candidates = []
 	if node.is_leaf():
 		close_candidates.append((node,0))
@@ -16,24 +16,32 @@ def find_closest_leaf_under(node):
 		#if len(close_candidates) == 2:
 		
 	sortedl = sorted(close_candidates, key = lambda t: t[1])
-	ties = [c for c in close_candidates if c[1]<=sortedl[0][1]+1 and c not in sortedl[:2]]
-	return sortedl[:2], ties
+	if nn > len(sortedl):
+			selected = sortedl[:nn]
+	else:
+			selected = sortedl
+	ties = [c for c in close_candidates if c[1]<=selected[-1][1] and c not in selected]
+	return selected, ties
 
 
-def find_closest_leaf_above(node,tree):
+def find_closest_leaf_above(node,tree, nn):
 	close_candidates = []
 	n = node
 	while n:
 		
 		for sibl in n.sibling_nodes():
-			ch, a = find_closest_leaf_under(sibl)
+			ch, a = find_closest_leaf_under(sibl,nn)
 			close_candidates+=[(c[0],c[1]+2) for c in ch]
 		n = n.parent_node
 	
 	if len(close_candidates) > 1:
 		sortedl = sorted(close_candidates, key = lambda t: t[1])
-		ties = [c for c in close_candidates if c[1]<=sortedl[0][1]+1 and c not in sortedl[:2]]
-		return sortedl[:2], ties
+		if nn > len(sortedl):
+			selected = sortedl[:nn]
+		else:
+			selected = sortedl
+		ties = [c for c in close_candidates if c[1]<=selected[-1][1] and c not in selected]
+		return selected, ties
 #		return [l[0] for l in sorted(close_candidates,key = lambda t: t[1])[:2]]
 	else:
 		return close_candidates,[]
@@ -42,28 +50,35 @@ def find_closest_leaf_above(node,tree):
 
 def sample_around_polytomy(tree):
 	allnode_samples = []
+	N = 2
 	for node in tree.postorder_node_iter():
 
 		if len(node.child_nodes()) > 2:
-			samples = []
+			if len(node.child_nodes()) < 10:
+				N = 5
+			samples = [[] for x in range(N)]
 			sample1,sample2 = [],[]
 			cc = []
 			if node.parent_node:
-				cc.append(find_closest_leaf_above(node,tree)[0])
+				cc.append(find_closest_leaf_above(node, tree, N)[0])
 
 			for child in node.child_node_iter():
-				cc.append(find_closest_leaf_under(child)[0])
+				cc.append(find_closest_leaf_under(child, N)[0])
+
+	#		print(cc)
 			for c in cc:
-				sample1.append(c[0][0])
-				i = int(len(c)>1)
-				sample2.append(c[i][0])
-			samples.append(sample1)
-			samples.append(sample2)
-			# for c in cc:
-			# 	for j in range(len(c)):
-			# 		if len(samples) <= j:
-			# 			samples.append([])
-			# 		samples[j].append(c[j][0])
+				x = len(c) if len(c) < N else N
+				for j in range(x):
+					samples[j].append(c[j][0])
+				if len(c) < N:
+					for k in range(len(c),N):
+						samples[k].append(c[j][0])
+
+				# sample1.append(c[0][0])
+				# i = int(len(c)>1)
+				# sample2.append(c[i][0])
+			# samples.append(sample1)
+			# samples.append(sample2)
 
 			allnode_samples += samples
 
@@ -79,7 +94,7 @@ def sample_around_polytomy_ties(tree):
 			cc = []
 			leaves = []
 			if node.parent_node:
-				a, ties = find_closest_leaf_above(node,tree)
+				a, ties = find_closest_leaf_above(node,tree,2)
 #				print(ties)
 				if ties:
 					cc.append(ties)
@@ -87,7 +102,7 @@ def sample_around_polytomy_ties(tree):
 					cc.append(a)
 
 			for child in node.child_node_iter():
-				a, ties = find_closest_leaf_under(child)
+				a, ties = find_closest_leaf_under(child,2)
 
 				cc.append(ties)
 				if child.is_leaf():
