@@ -86,6 +86,14 @@ def hessian(d, i, P):
 	return -(( 3 * np.exp(d) * P[i,] * (1 - 3 * P[i,]) )/(1+3*P[i,]*(np.exp(d)-1))**2).sum()
 
 
+def find_genetrees(P, best_ind, d, topologies):
+	P[best_ind,] *= (1 - 2/3*np.exp(-d))
+	for i in list(range(3)).remove(best_ind):
+		P[i,] *= (1/3*np.exp(-d))
+	gene_indices = np.argmax(P,axis=0)
+	genetrees = [topologies[i] for i in gene_indices]
+	return genetrees
+
 
 if __name__ == "__main__":
 	GENE_NUM = 500
@@ -128,6 +136,22 @@ if __name__ == "__main__":
 	print(results[best2].x[0], results[best2].fun, topologies[best2])
 	print("best:",end=" ")
 	print(results[best_ind].x[0], results[best_ind].fun, topologies[best_ind])
+	worst_ind = np.argmax([r.fun for r in results])
+	if len(topologies) <3:
+		worst_ind = best2
+	if len(topologies) < 2:
+		worst_ind = best_ind
+		best2 = best_ind
+	printstr = " ".join([str(x) for x in [results[best_ind].x[0], results[best_ind].fun, topologies[best_ind], sortedres[1].fun, topologies[best2],sortedres[-1].fun, topologies[worst_ind]]])+"\n"
+
+	out_file = sys.argv[3]
+	
+	with open(sys.argv[2],"w") as f:
+		f.write(printstr)
+	with open(out_file) as f:
+		f.write("\n".join(find_genetrees(P, best_ind, results[best_ind].fun, topologies)))
+		print("----- %s seconds -----" % (time.time() - start_time))
+
 #	print(results[best_ind].x, results[best_ind].fun, topologies[best_ind])
 
 
