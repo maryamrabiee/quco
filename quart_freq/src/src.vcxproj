@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FDBD9632-FC9C-4D4F-8A3E-24F9C4AE6FD5}</ProjectGuid>
+    <RootNamespace>src</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalOptions>-DquartetsToo -DdoExtractAndContract -DCONTRACT_MAX_EXTRA_SIZE=20000 -DcalcE %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalOptions>-DquartetsToo -DquartetsNoSwap -DdoExtractAndContract -DCONTRACT_MAX_EXTRA_SIZE=20000 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="HDT.cpp" />
+    <ClCompile Include="HDTCountingCCToC.cpp" />
+    <ClCompile Include="HDTCountingCTransform.cpp" />
+    <ClCompile Include="HDTCountingG.cpp" />
+    <ClCompile Include="HDTCountingIGToC.cpp" />
+    <ClCompile Include="HDTCountingLeaf.cpp" />
+    <ClCompile Include="HDTFactory.cpp" />
+    <ClCompile Include="HDTListUtils.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="NaiveImpl.cpp" />
+    <ClCompile Include="NewickParser.cpp" />
+    <ClCompile Include="nvwa\debug_new.cpp" />
+    <ClCompile Include="OutputHandler.cpp" />
+    <ClCompile Include="RootedTree.cpp" />
+    <ClCompile Include="RootedTreeFactory.cpp" />
+    <ClCompile Include="Soda13Impl.cpp" />
+    <ClCompile Include="Stopwatch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="counting_linked_list_num_only.h" />
+    <ClInclude Include="fancy_time.h" />
+    <ClInclude Include="hdt.h" />
+    <ClInclude Include="hdt_factory.h" />
+    <ClInclude Include="counting_linked_list.h" />
+    <ClInclude Include="memory_allocator.h" />
+    <ClInclude Include="naive_calc.h" />
+    <ClInclude Include="newick_parser.h" />
+    <ClInclude Include="output_handler.h" />
+    <ClInclude Include="quartet_calc.h" />
+    <ClInclude Include="rooted_tree.h" />
+    <ClInclude Include="rooted_tree_factory.h" />
+    <ClInclude Include="soda13_calc.h" />
+    <ClInclude Include="stopwatch.h" />
+    <ClInclude Include="templated_linked_list.h" />
+    <ClInclude Include="triplet_calc.h" />
+    <ClInclude Include="unrooted_tree.h" />
+    <ClInclude Include="util.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
