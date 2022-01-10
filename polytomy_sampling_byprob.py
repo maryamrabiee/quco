@@ -62,15 +62,15 @@ def sample_around_polytomy(tree):
 			sides_copy = copy.deepcopy(sides)
 			for x in range(sample_num):
 				sample = []
-				while  len(sample) <= min(9,degree) and sides:
+				while  len(sample) <= min(12,degree) and sides:
 					selected_side = random.choice(sides)
 					sides.remove(selected_side)
 					p = [nn.probability for nn in selected_side]
 					selected_node = numpy.random.choice(selected_side, p=p)
 					sample.append(selected_node.taxon.label)
-				samples.append(sample)
+				samples.append(sorted(sample))
 				sides = sides_copy.copy()
-			allnode_samples[node] = samples
+			allnode_samples[node] = list(set([tuple(ii) for ii in samples]))
 
 
 	return allnode_samples
