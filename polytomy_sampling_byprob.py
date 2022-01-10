@@ -32,6 +32,13 @@ def compute_sample_num(degree):
 	return max(int(400/(degree/3.0)),2)
 
 import copy
+
+
+def node_label(node):
+	if node.is_leaf():
+		return node.taxon.label + "#" + str(node.probability)
+	else:
+		return str(node.label) + "#" + str(node.probability)
 def sample_around_polytomy(tree):
 	allnode_samples = {}
 	N = 2
@@ -45,7 +52,10 @@ def sample_around_polytomy(tree):
 			for child in node.child_node_iter():
 				assign_probabilities(child, 1)
 			if node.parent_node:
+#				print("heyyy",len(node.child_nodes()),tree.as_string(schema="newick"))
 				assign_probabilities_parent(tree, node, 1)
+				#print("heyyy2",len(node.child_nodes()),tree.as_string(schema="newick",suppress_annotations=False,node_label_compose_fn=node_label))
+#				print("heyyy2",len(node.child_nodes()),tree.as_string(schema="newick",suppress_annotations=False))
 			sides = [list(set(tree.leaf_nodes()) - set(node.leaf_nodes()))]
 			for child in node.child_node_iter():
 				sides.append(child.leaf_nodes())
@@ -81,7 +91,7 @@ if __name__ == '__main__':
 
 	printstr = ""
 	for key,vals in samples.items():
-		print(vals)
+	#	print(vals)
 		for s in vals:
 			print(" ".join(s),len(s))
 			printstr+= " ".join(s)+"\n"
