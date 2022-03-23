@@ -24,11 +24,12 @@ class Simulation:
         gt.reroot_at_node(gt.mrca(taxon_labels=["A", "B"]))
 
 
-    def turn_to_mut(self,gt):
+    def turn_to_mut(self,gt, global_rate):
         assert type(gt) == dendropy.Tree
         for e in gt.postorder_edge_iter():
+#    variance = 1/5, mean =1    => shape=5, scale=1/5 
             rate = np.random.gamma(1, scale=1.0)
-            e.length = e.length * rate
+            e.length = e.length * rate * global_rate
         return gt
 
     def simulate_coalgenetree(self, k, seed):
@@ -36,12 +37,14 @@ class Simulation:
         print("Seed: ",1234567000+seed)
         self.genetrees = [treesim.contained_coalescent_tree(
             containing_tree=self.st, gene_to_containing_taxon_map=self.t_map, rng=rng) for i in range(0, k)]
-        for gt in self.genetrees:
-            self.unroot(gt)
+#        for gt in self.genetrees:
+#            self.unroot(gt)
         return self.genetrees
 
+#print coal gts  before here
     def multiply_rates(self):
-        self.genetrees = [self.turn_to_mut(g) for g in self.genetrees]
+        global_rate = 0.02
+        self.genetrees = [self.turn_to_mut(g, global_rate) for g in self.genetrees]
         return self.genetrees
 
 if __name__ == '__main__':
@@ -49,6 +52,7 @@ if __name__ == '__main__':
     short_r = float(sys.argv[2])
     long_r = float(sys.argv[3])
     print("Simulator version "+version)
+    np.random.seed(0)
     #sim = Simulation(internal_coal=0.6, term_coal=None, short_r=0.02, long_r=0.4, felsenstein=False)
     sim = Simulation( term_coal=None, short_r=short_r, long_r=long_r)
     N = int(sys.argv[4])
