@@ -1,0 +1,65 @@
+
+================== ASTRAL ===================== 
+
+This is ASTRAL version 5.7.8
+Gene trees are treated as unrooted
+15 trees read from data/output/quco-out.tre.nw
+index0
+All output trees will be *arbitrarily* rooted at A
+
+======== Running the main analysis
+Number of taxa: 6 (6 species)
+Taxa: [A, B, C, D, E, F]
+Taxon occupancy: {A=10, B=10, C=10, D=10, E=10, F=10}
+Number of gene trees: 15
+15 trees have missing taxa
+Calculating quartet distance matrix (for completion of X)
+Species tree distances calculated ...
+Will attempt to complete bipartitions from X before adding using a distance matrix.
+Building set of clusters (X) from gene trees 
+------------------------------
+gradient0: 19
+Number of Clusters after addition by distance: 19
+calculating extra bipartitions to be added at level 1 ...
+Adding to X using resolutions of greedy consensus ...
+Limit for sigma of degrees:200
+polytomy size limit : 3
+discarded polytomies:  []
+Threshold 0.0:
+Threshold 0.01:
+Threshold 0.02:
+Threshold 0.05:
+Threshold 0.1:
+Threshold 0.2:
+Threshold 0.3333333333333333:
+max k is :0
+Number of Clusters after addition by greedy: 19
+gradient0 in heuristiic: 19
+partitions formed in 0.025 secs
+Dynamic Programming starting after 0.025 secs
+Using tree-based weight calculation.
+Using polytree-based weight calculation.
+Polytree max score: 15
+Polytree building time: 0.002 seconds.
+Number of quartet trees in the gene trees: 15
+Size of largest cluster: 6
+Greedy score: 15
+estimationFactor: 1.0
+Sub-optimal score: 15
+Total Number of elements weighted: 16
+Normalized score (portion of input quartet trees satisfied before correcting for multiple individuals): 1.0
+Optimization score: 15
+Optimal tree inferred in 0.047 secs.
+(B,(A,(C,(F,(D,E)))));
+Final quartet score is: 15
+Final normalized quartet score is: 1.0
+You may want to ignore posterior probabilities and other statistics related to the following branch branch because the effective number of genes impacting it is only 3:
+	{D, E}
+You may want to ignore posterior probabilities and other statistics related to the following branch branch because the effective number of genes impacting it is only 4:
+	{D, E, F}
+You may want to ignore posterior probabilities and other statistics related to the following branch branch because the effective number of genes impacting it is only 3:
+	{C, D, E, F}
+Extended species tree:
+(A,((C,(F,(D,E)0.95:0.9808292530117262)0.98:1.2039728043259361)0.95:0.9808292530117262,B));
+Weight calculation took 4.28496E-4 secs
+ASTRAL finished in 0.091 secs

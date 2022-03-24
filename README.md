@@ -11,8 +11,13 @@
 1. Clone the code from this github page or download the zip file.
 2. Unzip the package if you downloaded the zip file.
 3. `cd` into the directory where QuCo code is placed. 
+4. `cd` into quart_freq and compile the code using:
 
-There is no installation required for the current version of QuCo. 
+```
+make clean
+make QUARTETS=1
+```
+
 
 # EXECUTION:
 The input required to run QuCo, is a set of posterior trees that are explored through MCMC sampling, for all the genes. If you have run multiple chains, you need to combine them into one file for each gene, and don't forget to remove trees explored during burn-ins.
@@ -21,6 +26,11 @@ In one file, provide the list of paths to the posterior trees for each gene, and
 
 ```
 ./run_quco.sh [paths_to_pp_trees] [output_folder]
+```
+Each of the posterior files should have a frequency in column one and the tree topology in column two. If you don't have the frequencies, you can run the following command to add them:
+
+```
+cat <posterior_file> | sort | uniq -c > <posterior_file_with_freq>
 ```
 Make sure that the write permissions for the output folder are correct.
 
@@ -39,6 +49,9 @@ The `quco-out.tre` has the following format, if it was needed for some analysis:
 .
 ```
 Astral tree run on best quartets can be found in the output directory as `quco-out.tre.astral.out `. It is in newick format, as well as all other output trees.
+
+#Data Availability
+Datasets used in the paper can be accessed via [this Drive link](https://drive.google.com/drive/folders/1l3IoZhDHo8cdq_apDshfoAvwa-qJlD1f?usp=sharing).
 
 
 
