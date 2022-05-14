@@ -5,6 +5,8 @@
 
 * Java, version 1.6 or later 
 * Dendropy, version > 4.0.0; Dendropy package which is easy to install with ***pip***. You can find installation instructions [here](https://dendropy.org).
+* Numpy
+* Newick utilities, can be downloaded from [here](https://github.com/tjunier/newick_utils)
 
 ## Steps:
 
