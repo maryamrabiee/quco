@@ -52,10 +52,13 @@ The `quco-out.tre` has the following format, if it was needed for some analysis:
 ```
 Astral tree run on best quartets can be found in the output directory as `quco-out.tre.astral.out `. It is in newick format, as well as all other output trees.
 
-#Data Availability
+# Data Availability
 Datasets used in the paper can be accessed via [this Drive link](https://drive.google.com/drive/folders/1l3IoZhDHo8cdq_apDshfoAvwa-qJlD1f?usp=sharing).
 
 
+# Acknowledgement 
+`quart_bin` code has been adopted from [this link](https://jensjohansen.com/thesis/), and the following dissertation
+* Johansen, Jens, and Morten Kragelund Holt. "Computing triplet and quartet distances." (2013).
 
 
 
