@@ -29,12 +29,19 @@ In one file, provide the list of paths to the posterior trees for each gene, and
 ```
 ./run_quco.sh [paths_to_pp_trees] [output_folder]
 ```
-Each of the posterior files should have a frequency in column one and the tree topology in column two. If you don't have the frequencies, you can run the following command to add them:
+Each of the posterior files correspond to one gene, and it usually contains several trees (up to thousands). For example, if you run MrBayes to obtain posterior trees, you can create these files from `XXX.runX.t` output of MrBayes, by removing the trees corresponding to the burn-in period. MrBayes has defualt burn-in of 25%, in that case, you should remove the first quarter of the trees from each `XXX.runX.t` file and then combine them.
+
+* If you have a few species and most of the trees are the same, it is not needed to save all the trees in a file. You can also pass trees with number of times observed as input to the script. In this case each line of each posterior files include first frequency, and then the tree in Newick format. Take a look at `data/01/seq600/000.nex.combined`.
 
 ```
-cat <posterior_file> | sort | uniq -c > <posterior_file_with_freq>
+N1 ((A,B),((C,D),E);
+N2 ((A,C),((B,D),E);
+N3 ((A,D),((B,E),C);
+...
+
+
 ```
-Make sure that the write permissions for the output folder are correct.
+* Make sure that the write permissions for the output folder are correct.
 
 ## Interpreting the output
 The output folder contains the quartet frequencies for each gene and also inferred quartets with branch lengths and likelihoods.
